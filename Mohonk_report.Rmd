@@ -1,0 +1,258 @@
+---
+title: "Final report for the Mohonk Preserve 2016 Butterfly Biodiversity survey."
+author: "Chris Hamm"
+date: "`r format(Sys.Date())`"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+#  html_document:
+#    toc: TRUE
+#    toc_float: TRUE
+#    toc_depth: 3
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echot = TRUE, fig.align = "center")
+options(dplyr.width = Inf)
+```
+
+# Executive summary
+
+The goal of this research was to determine the efficacy of standardized traps to quantify the butterfly fauna of the Mohonk Preserve. During the late Spring and early Summer of 2016 I established standardized butterfly traps at three locations on the Mohonk Preserve: **Spring Farm**, **White Oak**, and **Glory Hill**. These traps were baited with fermented bananas and monitored following a protocol established by Conservation International for fruit-feeding butterflies. This was the first application of this protocol in North America. Briefly, traps were baited and checked daily for three days and any butterflies present in the traps were identified, marked, and released. Other butterflies encountered in proximity to the traps were also identified and their abundances noted. Following a survey period, the traps were idle for two weeks and the trapping cycle resumed. After three trapping periods (nine survey days over six weeks) a total of 14 *Megisto cymela*, 6 *Papilio polyxenes*, and 6 *Cercyonis pegala* were captured in the traps with no recaptures. I observed an additional 12 species of butterfly in significant abundances at the sites that were never observed in the traps. The low butterfly diversity observed in the traps strongly suggests that this method is not ideal to monitor butterfly biodiversity at the Mohonk Preserve.
+
+# Introduction
+
+```{r preliminaries, include = FALSE}
+set.seed(249823597)
+
+library("vegan")
+library("vegetarian")
+library("tidyverse")
+library("spaceMovie")
+```
+
+# Trap study
+
+```{r load_traps, include = FALSE}
+BData <- read_csv("data/Mohonk_traps_data.csv", col_names = TRUE)
+str(BData)
+head(BData)
+
+BData <- BData %>% 
+	unite(Day, Month, Year, col = Date, sep = "_") %>% 
+	group_by(Date, Site) %>% 
+	summarize(M_cymela = sum(M_cymela), 
+			P_polyxenes = sum(P_polyxenes), 
+			C_pegala = sum(C_pegala))
+
+colSums(BData[, 3:5])
+```
+
+```{r trap_munge, include = FALSE}
+GH <- BData %>% filter(Site == "GH") %>% select(-Site)
+GH <- GH[, 2:4]
+GH
+
+SF <- BData %>% filter(Site == "SF") %>% select(-Site)
+SF <- SF[, 2:4]
+SF
+
+WO <- BData %>% filter(Site == "WO") %>% select(-Site)
+WO <- WO[, 2:4]
+WO
+
+GH1 <- d(GH, lev = "alpha", q = 1)
+GH1
+
+# A simple function to calculate a range of q values for a, b, and g diversity
+D.iter.q <- function(data, level, q){
+Spoon <- matrix(data = NA, ncol = 1, nrow = 6)
+  for (i in 1:6){
+  temp <- d(data, lev = level, q = i - 1, boot = FALSE)
+  Spoon[i, 1] <- temp[[1]]
+  }
+  return(Spoon)
+}
+```
+
+```{r trap_iter, echo = FALSE}
+GHa <- D.iter.q(data = GH, level = "alpha", q = 5)
+WOa <- D.iter.q(data = WO, level = "alpha", q = 5)
+SFa <- D.iter.q(data = SF, level = "alpha", q = 5)
+
+GHb <- D.iter.q(data = GH, level = "beta", q = 5)
+WOb <- D.iter.q(data = WO, level = "beta", q = 5)
+SFb <- D.iter.q(data = SF, level = "beta", q = 5)
+
+GHg <- D.iter.q(data = GH, level = "gamma", q = 5)
+WOg <- D.iter.q(data = WO, level = "gamma", q = 5)
+SFg <- D.iter.q(data = SF, level = "gamma", q = 5)
+
+plotDeMoney <- function(x0, y0, x1, y1, mean, dot){
+	points(y = mean, x = dot, pch = 15, col = 'grey', cex = 1.5)
+  segments(x0, y0, x1, y1, lwd = 3.5)
+}
+
+```
+
+```{trap_plot, echo = FALSE, include = TRUE}
+par(mfrow = c(3, 1))
+plot(x = seq(from = 0, to = 5, length.out = 4), y = seq(from = 0, to = 4.2, length.out = 4), xaxt = "n", type = "n", xlab = "", ylab = expression(paste(italic(beta))), las = 1, main = "Glory Hill")
+axis(1, at = c(0, 1, 2, 3, 4, 5))
+# populate the plot
+points(y = GHb[, 1], x = seq(0, 5), pch = 19, cex = 1.5)
+
+plot(x = seq(from = 0, to = 5, length.out = 4), y = seq(from = 0, to = 4.2, length.out = 4), xaxt = "n", type = "n", ylab = expression(paste(italic(beta))), las = 1, xlab = "", main = "White Oak")
+axis(1, at = c(0, 1, 2, 3, 4, 5))
+# populate the plot
+points(y = WOb[, 1], x = seq(0, 5), pch = 19, cex = 1.5)
+
+plot(x = seq(from = 0, to = 5, length.out = 4), y = seq(from = 0, to = 4.2, length.out = 4), xaxt = "n", type = "n", ylab = expression(paste(italic(beta))), las = 1, xlab = expression(paste(italic("q"))), main = "Spring Farm")
+axis(1, at = c(0, 1, 2, 3, 4, 5))
+points(y = SFb[, 1], x = seq(0, 5), pch = 19, cex = 1.5)
+```
+
+
+```{r turn_off, echo = FALSE}
+par(mfrow = c(1, 1))
+```
+
+
+
+
+
+
+
+# Climate change
+
+```{r load_temperature, warning = TRUE, include = FALSE}
+weather_data <- read_csv("data/Mohonk_temp.csv", col_names = TRUE, col_types = list(DATE = col_date("%m/%d/%Y"))) # minor parsing failure for a leap year
+
+weather <- weather_data %>% 
+	select(DATE, MAX, MIN) %>% 
+	mutate(Max_Celsius = ((MAX - 32) * (5/9)), 
+		Min_Celsius = ((MIN - 32) * (5 / 9)))
+```
+weather <- ts(weather)
+
+str(weather)
+head(weather)
+tail(weather)
+dim(weather)
+print(weather)
+frequency(weather) # one observation per day
+deltat(weather) # one observation per day
+
+```{r temp_recent, include = FALSE}
+recent <- weather %>% 
+	filter(DATE >= as.Date("1980-01-01")) %>%
+	mutate(mean_C = ((Max_Celsius + Min_Celsius) / 2)) %>%
+	select(DATE, mean_C, Max_Celsius)
+```
+
+This is just linear. Need to look at when warming occurs by date.
+```{r plot_linear}
+ggplot(recent, aes(x = DATE, y = Max_Celsius)) +
+	theme_bw() + 
+	geom_line() + 
+	ylab(expression("Maximum temperature " *~degree*C)) +
+	xlab("Year") +
+	stat_smooth(method = "lm", col = "red")
+```
+
+lm1 <- lm(Max_Celsius ~ DATE, data = recent)
+summary(lm1)
+
+
+
+
+older <- weather %>% filter(DATE >= as.Date("1900-01-01"))
+dim(older)
+
+This is just linear. Need to look at when warming occurs by date.
+ggplot(older, aes(x = DATE, y = Max_Celsius)) +
+	theme_bw() + 
+	geom_line() + 
+	ylab(expression("Maximum temperature " *~degree*C)) +
+	xlab("Year") +
+	stat_smooth(method = "auto", col = "red")
+
+weather %>% filter()
+
+m1 <- envcpt(data = recent$Max_Celsius)
+
+Using the forecast package
+
+fit1 <- auto.arima(recent$mean_C)
+checkresiduals(fit1) # The data are correlated
+head(USAccDeaths)
+
+recent_month <- recent %>%
+	separate(DATE, into = c("YEAR", "MONTH", "DAY"), convert = TRUE) %>% 
+	group_by(YEAR, MONTH) %>% 
+	summarize(MEAN_MONTH_C = mean(mean_C, na.rm = TRUE)) %>%
+	mutate(MONTH2 = month.abb[MONTH]) %>% 
+	filter(YEAR <= 2015)
+	
+	
+spread(key = MONTH2, value =  MEAN_MONTH_C)
+	
+head(recent_month)
+tail(recent_month)
+dim(recent_month)
+
+write.csv(recent_month,"Change/tsMohonk.csv", na = "NA")
+
+tsMohonk <- read.csv("Change/tsMohonk.csv", header = TRUE, row.names = 1)
+str(recent_month)
+head(recent_month)
+
+ts2 <- as.timeSeries(recent_month, row.names = row.names(recent_month), optional = TRUE, start = 1980, end = 2015, format = "%Y")
+str(ts2)
+dim(ts2)
+
+row.names(ts2) <- c(1980:2015)
+
+
+ts3 <- ts(ts2, start = 1980, end = 2015, freq = 1)
+str(ts3)
+row.names(ts3) <- c(1980:2015)
+str(ts3)
+
+
+ts5 <- ts(tsMohonk, start = 1980, end = 2015, freq = 1)
+str(ts5)
+head(ts5)
+colnames(ts5)
+str(USAccDeaths)
+
+
+
+
+ggseasonplot(ts5, polar = TRUE)
+
+
+
+
+
+Back to ggplot2 
+ggplot(recent_month, aes(x = factor(MONTH), y = MEAN_MONTH_C), fill = factor(YEAR)) + 
+	scale_x_discrete(breaks = 1:12) +
+	coord_polar() +
+	geom_polygon(aes(group = factor(YEAR), color = factor(YEAR)), fill = NA, alpha = 1) +
+	scale_color_manual(values = rev(SW_palette("Sabine", 37, type = "continuous"))) +
+	ylab(expression("Mean monthly temp" *~degree*C)) +
+	xlab("Month") +
+	theme(legend.title = element_blank()) 
+	
+	+
+	scale_shape_manual(labels = unique(recent_month$YEAR)) 
+	
+	+
+	guides(color = guide_legend(overrive.aes = list(shape = 1)))	
+	
+	+
+	 +
+	scale_linetype(labels = unique(recent_month$YEAR))
