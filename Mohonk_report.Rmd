@@ -336,5 +336,8 @@ ggplot(year_temps, aes(x = YEAR, y = centered)) +
   geom_line(data = new_data, aes(y = fitted, x = YEAR))
 ```
 
+Some text goes here.
 
+***
+# Literature cited
 
