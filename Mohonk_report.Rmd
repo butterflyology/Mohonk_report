@@ -63,6 +63,8 @@ library("vegetarian")
 library("tidyverse")
 library("spaceMovie")
 library("ggmap")
+library("mgcv")
+library("curl")
 ```
 
 # Trap study
@@ -246,8 +248,7 @@ by_month <- weather_data %>%
   mutate(yr1900 = YEAR - 1900, Max_Celsius = ((MAX - 32) * (5/9)), Min_Celsius = ((MIN - 32) * (5 / 9)), mean_C = ((Max_Celsius + Min_Celsius) / 2),
   MONTH2 = month.abb[MONTH]) %>%
   group_by(MONTH) 
-# %>%
-#   nest()
+
 
 
 
@@ -351,21 +352,48 @@ ggplot(recent, aes(x = DATE, y = mean_C)) +
 ```
 
 
-## Annular plot
+```{r gamm, include = FALSE}
+year_temps <- weather_data %>%
+  separate(DATE, into = c("YEAR", "MONTH", "DAY"), convert = TRUE) %>%
+  group_by(YEAR) %>% 
+  mutate(Max_Celsius = ((MAX - 32) * (5/9)), 
+         Min_Celsius = ((MIN - 32) * (5 / 9)), 
+         mean_C = ((Max_Celsius + Min_Celsius) / 2)) %>%
+  filter(YEAR <= 2015) %>%
+  summarize(MEAN_YEAR_C = mean(mean_C, na.rm = TRUE)) %>% 
+  mutate(centered = MEAN_YEAR_C - mean(MEAN_YEAR_C))
 
-If the data were plotted in circles with lighter colrs being more recent
 
+gamm1 <- gamm(centered ~ s(YEAR), data = year_temps, correlation = corARMA(form = ~ YEAR, p = 1))
 
-```{r recent_month, include = FALSE}
-recent_month <- recent %>%
-	separate(DATE, into = c("YEAR", "MONTH", "DAY"), convert = TRUE) %>% 
-	group_by(YEAR, MONTH) %>% 
-	summarize(MEAN_MONTH_C = mean(mean_C, na.rm = TRUE)) %>%
-	mutate(MONTH2 = month.abb[MONTH]) %>% 
-	filter(YEAR <= 2015)
+gamm2 <- gamm(centered ~ s(YEAR), data = year_temps, correlation = corARMA(form = ~ YEAR, p = 2))
+
+anova(gamm1$lme, gamm2$lme) # model one does a slightly better job modeling the residual correlation
+
+temp_file <- tempfile()
+curl_download("https://gist.githubusercontent.com/gavinsimpson/d23ae67e653d5bfff652/raw/25fd719c3ab699e48927e286934045622d33b3bf/simulate.gamm.R", temp_file)
+source(temp_file)
+
+sim_data <- with(year_temps, data.frame(YEAR = seq(min(YEAR), max(YEAR), length.out = 200)))
+simulations <- simulate(gamm1, nsim = 10000, newdata = sim_data)
+
+conf_int <- apply(simulations, 1L, quantile, probs = c(0.025, 0.975))
+
+new_data <- transform(sim_data, fitted = predict(gamm1$gam, newdata = sim_data), lower  = conf_int[1, ], upper  = conf_int[2, ])
+```
+
+```{r ribbon_plot, echo = FALSE, warnings = FALSE}
+ggplot(year_temps, aes(x = YEAR, y = centered)) +
+  geom_point() +
+  ylab(expression("Centered temperature " *~degree*C)) + 
+  xlab("Year") + 
+  geom_ribbon(data = new_data, aes(ymin = lower, ymax = upper, x = YEAR, y = fitted), alpha = 0.4, fill = "grey") + 
+  geom_line(data = new_data, aes(y = fitted, x = YEAR))
 ```
 
 
+
+## Annular plot
 
 ```{r annular, echo = FALSE}
 ggplot(recent_month, aes(x = factor(MONTH), y = MEAN_MONTH_C), fill = factor(YEAR)) + 
@@ -380,3 +408,6 @@ ggplot(recent_month, aes(x = factor(MONTH), y = MEAN_MONTH_C), fill = factor(YEA
 
 
 
+```{r flyer}
+
+```
