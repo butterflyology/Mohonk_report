@@ -212,25 +212,36 @@ plotDeMoney <- function(x0, y0, x1, y1, mean, dot){
 ```
 
 ```{r trap_plot, echo = FALSE, include = TRUE, fig.cap = "Species richness estimates based on traping."}
-par(mfrow = c(3, 1))
-plot(x = seq(from = 0, to = 5, length.out = 4), y = seq(from = 0, to = 4.2, length.out = 4), xaxt = "n", type = "n", ylab = expression(paste(italic(beta))), las = 1, xlab = expression(paste(italic("q"))), main = "Spring Farm")
-axis(1, at = c(0, 1, 2, 3, 4, 5))
+
+par(mar = c(1, 5, 0, 0))
+par(fig = c(0, 1, 0.65, 1), new = TRUE)
+
+par(mar = c(3, 6, 1, 1))
+plot.new()
+plot(x = seq(from = 0, to = 5, length.out = 4), y = seq(from = 0, to = 4.2, length.out = 4), xaxt = "n", type = "n", ylab = "", las = 1, xlab = "", main = "Spring Farm")
 points(y = SFb[, 1], x = seq(0, 5), pch = 19, cex = 1.5)
 
-plot(x = seq(from = 0, to = 5, length.out = 4), y = seq(from = 0, to = 4.2, length.out = 4), xaxt = "n", type = "n", ylab = expression(paste(italic(beta))), las = 1, xlab = "", main = "White Oak")
-axis(1, at = c(0, 1, 2, 3, 4, 5))
-# populate the plot
-points(y = WOb[, 1], x = seq(0, 5), pch = 19, cex = 1.5)
 
-plot(x = seq(from = 0, to = 5, length.out = 4), y = seq(from = 0, to = 4.2, length.out = 4), xaxt = "n", type = "n", xlab = "", ylab = expression(paste(italic(beta))), las = 1, main = "Glory Hill")
+par(fig = c(0, 1, 0.35, 0.70), new = TRUE)
+par(mar = c(3,6,1,1))
+plot.new()
+plot(x = seq(from = 0, to = 5, length.out = 4), y = seq(from = 0, to = 4.2, length.out = 4), xaxt = "n", type = "n", ylab = "", las = 1, xlab = "", main = "White Oak")
+points(y = WOb[, 1], x = seq(0, 5), pch = 19, cex = 1.5)
+mtext(expression(paste(italic(beta))), side = 2, padj = -1.3, srt = 0, cex = 2)
+
+
+par(fig = c(0, 1, 0, 0.35), new = TRUE)
+par(mar = c(3, 6, 1 ,1))
+plot.new()
+plot(x = seq(from = 0, to = 5, length.out = 4), y = seq(from = 0, to = 4.2, length.out = 4), xaxt = "n", type = "n", ylab = "", xlab = "", las = 1, main = "Glory Hill")
 axis(1, at = c(0, 1, 2, 3, 4, 5))
-# populate the plot
 points(y = GHb[, 1], x = seq(0, 5), pch = 19, cex = 1.5)
+mtext(expression(paste(italic("q"))), 1, padj = 2, cex = 1.5)
 ```
 
 
 ```{r turn_off, echo = FALSE}
-par(mfrow = c(1, 1))
+#par(mfrow = c(1, 1))
 ```
 
 It didn't quite work. This was the first time this trapping study has been attempted in temperate North America and we it failed to attract samples that were representative of the butterfly community at the Mohonk Preserve (Tables 1 & 2). 
@@ -350,10 +361,38 @@ Table: ANOVA table comparing AR(1) and AR(2) models.
 
 
 ## Prediction - ARIMA
+
+I used an `ARIMA` (**A**uto**R**egressive **I**ntegrated **M**oving **A**verage) model.
+
 ```{r sarima, echo = FALSE, eval = FALSE}
+# diff is used to identify the model type (MA, AR)
 # This is it, looks good!
+plot(diff(year_temps$centered), type = "l", ylab = "", las = 1) # Taking the diff shows stationarity!
 plot(acf2(year_temps$centered), pch = 19, las = 1)
-sarima(year_temps$centered, 1, 0, 1)
+plot(acf2(diff(year_temps$centered)), pch = 19, las = 1)
+plot(pacf(diff(year_temps$centered)), main = "", las = 1)
+
+
+
+sarima(year_temps$centered, 1, 0, 0) # Not so good
+sarima(year_temps$centered, 0, 0, 1) # Not so good
+sarima(year_temps$centered, 1, 0, 1) # Nice.
+
+# Given the acf2 plot, two more models also seem plausible: ARIMA(1, 1, 1) and ARIMA(0, 1, 2)
+sarima(year_temps$centered, 1, 1, 1) 
+sarima(year_temps$centered, 0, 1, 2) 
+
+# Now let's overfit the model and see how it changes.  If adding parameters changes the results drastically, then you should rethink your model. If, however, the results do not change by much, you can be confident that your fit is correct.
+
+
+# Once the model is chosen, let's forecast.
+#year_f <- window(year_temps$centered)
+sarima.for(year_temps$centered, n.ahead = 48, 0, 1, 2)
+#lines(year_f)
+
+# convert year_temps to xts/ts for to make pretty. Maybe do by month? 
+
+# This model is a bit simplistic because it is condensing a lot of information into monthly averages
 ```
 
 
