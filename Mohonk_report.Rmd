@@ -5,14 +5,14 @@ bibliography: Mohonk_refs.bib
 csl: evolution.csl
 date: "`r Sys.Date()`"
 output: 
-  pdf_document:
-    toc: true
-    number_sections: true
-    fig_caption: yes
-#  html_document:
-#    toc: TRUE
-#    toc_float: TRUE
-#    toc_depth: 3
+#  pdf_document:
+#    toc: true
+#    number_sections: true
+#    fig_caption: yes
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 3
 ---
 
 
@@ -211,7 +211,7 @@ plotDeMoney <- function(x0, y0, x1, y1, mean, dot){
 }
 ```
 
-```{r trap_plot, echo = FALSE, include = TRUE, fig.cap = "Species richness estimates based on traping."}
+```{r trap_plot, echo = FALSE, include = TRUE, fig.cap = "Species richness estimates based on traping.", warning = FALSE}
 
 par(mar = c(1, 5, 0, 0))
 par(fig = c(0, 1, 0.65, 1), new = TRUE)
