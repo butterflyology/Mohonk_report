@@ -372,8 +372,6 @@ plot(acf2(year_temps$centered), pch = 19, las = 1)
 plot(acf2(diff(year_temps$centered)), pch = 19, las = 1)
 plot(pacf(diff(year_temps$centered)), main = "", las = 1)
 
-
-
 sarima(year_temps$centered, 1, 0, 0) # Not so good
 sarima(year_temps$centered, 0, 0, 1) # Not so good
 sarima(year_temps$centered, 1, 0, 1) # Nice.
@@ -384,11 +382,18 @@ sarima(year_temps$centered, 0, 1, 2)
 
 # Now let's overfit the model and see how it changes.  If adding parameters changes the results drastically, then you should rethink your model. If, however, the results do not change by much, you can be confident that your fit is correct.
 
+# decent plot
+plot(y = year_temps$centered, x = year_temps$YEAR, type = "l", pch = 19, xlim = c(1900, 2020), las = 1, ylab = expression(paste("Centered temperature") ~degree~C), xlab = "Year", lwd = 1.5)
+```
+
+```{r sarima_plot, echo = FALSE, results = "hide"}
+# create a ts object
+test1 <- ts(data = year_temps$centered, start = 1900, end = 2015)
 
 # Once the model is chosen, let's forecast.
-#year_f <- window(year_temps$centered)
-sarima.for(year_temps$centered, n.ahead = 48, 0, 1, 2)
-#lines(year_f)
+source("code/sarima_for.R")
+sarima_for(test1, n.ahead = 10, 0, 1, 2)
+# Nearly all of the predicted error is for positive warming
 
 # convert year_temps to xts/ts for to make pretty. Maybe do by month? 
 
