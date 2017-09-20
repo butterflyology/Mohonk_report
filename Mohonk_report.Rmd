@@ -5,14 +5,14 @@ bibliography: Mohonk_refs.bib
 csl: evolution.csl
 date: "`r Sys.Date()`"
 output: 
-#  pdf_document:
-#    toc: true
-#    number_sections: true
-#    fig_caption: yes
-  html_document:
-    toc: TRUE
-    toc_float: TRUE
-    toc_depth: 3
+  pdf_document:
+    toc: true
+    number_sections: true
+    fig_caption: yes
+#  html_document:
+#    toc: TRUE
+#    toc_float: TRUE
+#    toc_depth: 3
 ---
 
 
@@ -386,7 +386,7 @@ sarima(year_temps$centered, 0, 1, 2)
 plot(y = year_temps$centered, x = year_temps$YEAR, type = "l", pch = 19, xlim = c(1900, 2020), las = 1, ylab = expression(paste("Centered temperature") ~degree~C), xlab = "Year", lwd = 1.5)
 ```
 
-```{r sarima_plot, echo = FALSE, results = "hide"}
+```{r sarima_plot, echo = FALSE, results = "hide", message = FALSE}
 # create a ts object
 test1 <- ts(data = year_temps$centered, start = 1900, end = 2015)
 
