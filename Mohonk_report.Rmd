@@ -69,6 +69,7 @@ library("ggmap")
 library("mgcv")
 library("xts")
 library("astsa")
+library("forecast")
 ```
 
 ***
@@ -273,6 +274,11 @@ monthly_temps <- weather_data %>%
          mean_C = ((Max_Celsius + Min_Celsius) / 2)) %>%
   filter(YEAR <= 2015) %>%
   summarize(MEAN_MONTH_C = mean(mean_C, na.rm = TRUE))
+
+monthly_ts <- ts(monthly_temps$MEAN_MONTH_C, start = c(1900, 1), end = c(2015, 12), freq = 12)
+head(monthly_ts)
+tail(monthly_ts)
+str(monthly_ts)
 ```
 
 
@@ -383,16 +389,16 @@ sarima(year_temps$centered, 0, 1, 2)
 # Now let's overfit the model and see how it changes.  If adding parameters changes the results drastically, then you should rethink your model. If, however, the results do not change by much, you can be confident that your fit is correct.
 
 # decent plot
-plot(y = year_temps$centered, x = year_temps$YEAR, type = "l", pch = 19, xlim = c(1900, 2020), las = 1, ylab = expression(paste("Centered temperature") ~degree~C), xlab = "Year", lwd = 1.5)
+plot(y = year_temps$centered, x = year_temps$YEAR, type = "l", pch = 19, xlim = c(1900, 2020), las = 1, ylab = expression(paste("Centered temperature ") ~degree~C), xlab = "Year", lwd = 1.5)
 ```
 
 ```{r sarima_plot, echo = FALSE, results = "hide", message = FALSE}
 # create a ts object
-test1 <- ts(data = year_temps$centered, start = 1900, end = 2015)
+yr_ts <- ts(data = year_temps$centered, start = 1900, end = 2015)
 
 # Once the model is chosen, let's forecast.
 source("code/sarima_for.R")
-sarima_for(test1, n.ahead = 10, 0, 1, 2)
+sarima_for(yr_ts, n.ahead = 10, 0, 1, 2)
 # Nearly all of the predicted error is for positive warming
 
 # convert year_temps to xts/ts for to make pretty. Maybe do by month? 
@@ -400,6 +406,112 @@ sarima_for(test1, n.ahead = 10, 0, 1, 2)
 # This model is a bit simplistic because it is condensing a lot of information into monthly averages
 ```
 
+```{r forecast, echo = FALSE, eval = FALSE}
+# This plot looks good (aka correct)
+autoplot(yr_ts) +
+  ylab(expression(paste("Centered temperature ") ~degree~C)) +
+  xlab("Year") +
+  theme_bw()
+
+# Training and test sets, cross-validoation
+yr_ses <- ses(yr_ts, h = 5)
+
+autoplot(yr_ses) +
+  ylab("Temperature") +
+  xlab("Year") +
+  autolayer(fitted(yr_ses)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  labs(title = "")
+
+yr_window <- window(yr_ts, start = 1900, end = 1999)
+
+yr_ses_train <- ses(yr_window, h = 5)
+yr_naive_train <- naive(yr_window, h = 5)
+
+summary(yr_ses_train)
+summary(yr_naive_train)
+
+accuracy(yr_ses_train, yr_ts)
+accuracy(yr_naive_train, yr_ts)
+
+# By monthly mean? 
+monthly_temps2 <- weather_data %>%
+  separate(DATE, into = c("YEAR", "MONTH", "DAY"), convert = TRUE, remove = FALSE) %>%
+  mutate(Max_Celsius = ((MAX - 32) * (5/9)), 
+         Min_Celsius = ((MIN - 32) * (5 / 9)), 
+         mean_C = ((Max_Celsius + Min_Celsius) / 2)) %>%
+  filter(YEAR <= 2015) %>%
+  group_by(YEAR, MONTH) %>% 
+  summarize(MEAN_MONTH_C = mean(mean_C, na.rm = TRUE))
+
+# This code is NOT correct, does not give a proper time series
+monthly_ts2 <- ts(monthly_temps2$mean_C, start = 1900, end = 2015, frequency = 12)
+glimpse(monthly_ts)
+
+autoplot(monthly_ts)
+
+monthly_ts_window <- window(monthly_ts, start = 1970, end = 2015)
+
+autoplot(monthly_ts_window) +
+  ylab(expression(paste("Temperature ") ~degree~C)) +
+  xlab("Year")
+
+
+# These do NOT look good
+ggseasonplot(monthly_ts_window)
+ggseasonplot(monthly_ts_window, polar = TRUE)
+
+
+# Holt's exponential smoothing
+yr_holt <- holt(yr_ts, h = 10)
+checkresiduals(yr_holt) # looks good
+
+# This is roughly the same as sarima but prettier.
+autoplot(yr_holt) +
+  autolayer(fitted(yr_holt)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  labs(title = "") +
+  ylab(expression(paste("Centered temperature ") ~degree~C)) +
+  xlab("Year")
+
+yr_ets <- ets(yr_ts) # best model is (A, N, N): A - Additive errors, N - No trend, and N - No seasonality.
+
+yr_ets_fc <- forecast(yr_ets, h = 10)
+autoplot(yr_ets_fc)
+
+yr_ts %>% 
+  ets() %>% 
+  forecast(h = 10) %>% 
+  autoplot()
+
+
+
+```
+
+
+```{r monthly, eval = FALSE}
+autoplot(monthly_ts) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  labs(title = "") +
+  ylab(expression(paste("Temperature ") ~degree~C)) +
+  xlab("Year")
+
+hw_add <- hw(monthly_ts, seasonal = "additive", h = 72)
+autoplot(hw_add)
+
+ets(monthly_ts) # Additive error, No trend, Additive seasonality
+
+monthly_ts %>% 
+  ets() %>% 
+  forecast(h = 72) %>% 
+  autoplot()
+
+```
+
+Forecast is the mean of a series of simulated futures based on the model that best fits our data. 
 
 Some text goes here.
 
