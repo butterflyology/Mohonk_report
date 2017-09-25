@@ -5,14 +5,14 @@ bibliography: Mohonk_refs.bib
 csl: evolution.csl
 date: "`r Sys.Date()`"
 output: 
-  pdf_document:
-    toc: true
-    number_sections: true
-    fig_caption: yes
-#  html_document:
-#    toc: TRUE
-#    toc_float: TRUE
-#    toc_depth: 3
+#  pdf_document:
+#    toc: true
+#    number_sections: true
+#    fig_caption: yes
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 3
 ---
 
 
@@ -435,18 +435,10 @@ summary(yr_naive_train)
 accuracy(yr_ses_train, yr_ts)
 accuracy(yr_naive_train, yr_ts)
 
-# By monthly mean? 
-monthly_temps2 <- weather_data %>%
-  separate(DATE, into = c("YEAR", "MONTH", "DAY"), convert = TRUE, remove = FALSE) %>%
-  mutate(Max_Celsius = ((MAX - 32) * (5/9)), 
-         Min_Celsius = ((MIN - 32) * (5 / 9)), 
-         mean_C = ((Max_Celsius + Min_Celsius) / 2)) %>%
-  filter(YEAR <= 2015) %>%
-  group_by(YEAR, MONTH) %>% 
-  summarize(MEAN_MONTH_C = mean(mean_C, na.rm = TRUE))
+# ETS and ARIMA models have trouble with weekly (k = 52) data, use harmonic regression. 
 
 # This code is NOT correct, does not give a proper time series
-monthly_ts2 <- ts(monthly_temps2$mean_C, start = 1900, end = 2015, frequency = 12)
+# monthly_ts2 <- ts(monthly_temps2$mean_C, start = 1900, end = 2015, frequency = 12)
 glimpse(monthly_ts)
 
 autoplot(monthly_ts)
@@ -485,13 +477,26 @@ yr_ts %>%
   ets() %>% 
   forecast(h = 10) %>% 
   autoplot()
+```
 
+```{r forecast_plot, echo = FALSE, message = FALSE}
+# forecast arima models
+yr_arima <- auto.arima(yr_ts, stepwise = FALSE)
+summary(yr_arima)
 
-
+yr_arima %>% 
+  forecast(h = 10) %>% 
+  autoplot() +
+  autolayer(fitted(yr_arima)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  labs(title = "") +
+  ylab(expression(paste("Temperature ") ~degree~C)) +
+  xlab("Year")
 ```
 
 
-```{r monthly, eval = FALSE}
+```{r monthly, eval = FALSE, echo = FALSE}
 autoplot(monthly_ts) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -501,14 +506,59 @@ autoplot(monthly_ts) +
 
 hw_add <- hw(monthly_ts, seasonal = "additive", h = 72)
 autoplot(hw_add)
+checkresiduals(hw_add) # Fail
+
 
 ets(monthly_ts) # Additive error, No trend, Additive seasonality
+checkresiduals(ets(monthly_ts)) # fail
 
 monthly_ts %>% 
   ets() %>% 
   forecast(h = 72) %>% 
-  autoplot()
+  autoplot() +
+    xlim(1985, 2022) +
+    theme_bw() +
+    theme(legend.position = "none") +
+    labs(title = "") +
+    ylab(expression(paste("Temperature ") ~degree~C)) +
+    xlab("Year")
 
+# crap. ARIMA not good with monthly data
+month_arima <- auto.arima(monthly_ts) # bad
+
+# Harmonic regression
+month_four <- fourier(monthly_ts, K = 2)
+
+month_fit <- auto.arima(monthly_ts, xreg = month_four, seasonal = FALSE)
+summary(month_fit)
+checkresiduals(month_fit)
+
+month_fc <- forecast(month_fit, xreg = month_four, h = 52)
+# str(month_fc)
+
+autoplot(month_fc) +
+    xlim(1985, 2022) +
+    theme_bw() +
+    theme(legend.position = "none") +
+    labs(title = "") +
+    ylab(expression(paste("Temperature ") ~degree~C)) +
+    xlab("Year")
+
+# TBATS
+month_tbats <- tbats(monthly_ts)
+
+month_tbats %>% 
+  forecast(h = 120) %>% 
+  autoplot() +
+  xlim(1985, 2025) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  ylab(expression(paste("Temperature ") ~degree~C)) +
+  xlab("Year") +
+  labs(title = "")
+#  autolayer(fitted(month_tbats))
+
+ 
 ```
 
 Forecast is the mean of a series of simulated futures based on the model that best fits our data. 
