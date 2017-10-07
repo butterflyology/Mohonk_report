@@ -370,7 +370,7 @@ Table: ANOVA table comparing AR(1) and AR(2) models.
 
 I used an `ARIMA` (**A**uto**R**egressive **I**ntegrated **M**oving **A**verage) model.
 
-```{r sarima, echo = FALSE, eval = FALSE}
+```{r sarima, echo = FALSE, eval = FALSE, message = FALSE}
 # diff is used to identify the model type (MA, AR)
 # This is it, looks good!
 plot(diff(year_temps$centered), type = "l", ylab = "", las = 1) # Taking the diff shows stationarity!
@@ -406,7 +406,7 @@ sarima_for(yr_ts, n.ahead = 10, 0, 1, 2)
 # This model is a bit simplistic because it is condensing a lot of information into monthly averages
 ```
 
-```{r forecast, echo = FALSE, eval = FALSE}
+```{r forecast, echo = FALSE, eval = FALSE, message = FALSE}
 # This plot looks good (aka correct)
 autoplot(yr_ts) +
   ylab(expression(paste("Centered temperature ") ~degree~C)) +
@@ -479,10 +479,10 @@ yr_ts %>%
   autoplot()
 ```
 
-```{r forecast_plot, echo = FALSE, message = FALSE}
+```{r forecast_plot, echo = FALSE, message = FALSE, warning = FALSE}
 # forecast arima models
 yr_arima <- auto.arima(yr_ts, stepwise = FALSE)
-summary(yr_arima)
+#summary(yr_arima)
 
 yr_arima %>% 
   forecast(h = 10) %>% 
@@ -496,7 +496,7 @@ yr_arima %>%
 ```
 
 
-```{r monthly, eval = FALSE, echo = FALSE}
+```{r monthly, eval = FALSE, echo = FALSE, message = FALSE}
 autoplot(monthly_ts) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -563,7 +563,7 @@ month_tbats %>%
 
 Forecast is the mean of a series of simulated futures based on the model that best fits our data. 
 
-Some text goes here.
+The forecast predicts that annual temperature will continue to be above the mean for the past 115 years. 
 
 ***
 # Literature cited
