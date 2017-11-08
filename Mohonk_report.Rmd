@@ -70,6 +70,7 @@ library("mgcv")
 library("xts")
 library("astsa")
 library("forecast")
+library("prophet")
 ```
 
 ***
@@ -564,6 +565,34 @@ month_tbats %>%
 Forecast is the mean of a series of simulated futures based on the model that best fits our data. 
 
 The forecast predicts that annual temperature will continue to be above the mean for the past 115 years. 
+
+
+## Prediction - `prophet`
+
+```{r prophet, echo = FALSE, warning = FALSE, message = FALSE, results = "hide"}
+
+monthly_temps_prophet <- monthly_temps %>% 
+  unite(YM, YEAR, MONTH, sep = "-") %>% 
+  rename(ds = YM, y = MEAN_MONTH_C) %>% 
+  mutate(ds = as.yearmon(ds, format = "%Y-%m"))
+  
+
+prophet_predict <- prophet(monthly_temps_prophet)
+prophet_future <- make_future_dataframe(prophet_predict, periods = 1000)
+prophet_forecast <- predict(prophet_predict, prophet_future)
+
+# tail(prophet_forecast)
+plot(prophet_predict, prophet_forecast) +
+  theme_bw() +
+  xlab("Year") +
+  ylab(expression("Mean monthly temp" *~degree*C))
+
+
+prophet_plot_components(prophet_predict, prophet_forecast) 
+
+```
+
+
 
 ***
 # Literature cited
