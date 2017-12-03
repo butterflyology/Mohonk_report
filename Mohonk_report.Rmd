@@ -248,8 +248,7 @@ mtext(expression(paste(italic("q"))), 1, padj = 2, cex = 1.5)
 #par(mfrow = c(1, 1))
 ```
 
-It didn't quite work. This was the first time this trapping study has been attempted in temperate North America and we it failed to attract samples that were representative of the butterfly community at the Mohonk Preserve (Tables 1 & 2). 
-
+Butterfly sampling through the use of baited traps at the Mohonk Preserve did not produce the desired results. While the method did trap butterflies the diversity estimates generated were far below the observed values immediately adjacent to the traps (Tables 1 & 2). This was the first application of this method in North America, and has at least demonstrated how not to estimate butterfly biodiversty in New York. Future attempts to assess the butterfly community at the Mohonk Preserve should utilize alternative methods.
 
 ***
 

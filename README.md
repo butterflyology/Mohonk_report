@@ -33,3 +33,4 @@ List of major commits:
 1. 2017-06-05: Added mean temp by month plot. Commit pushed from 35,000 over the Rockies.
 1. 2017-06-22: Added `gamm()` models; fixed: caption issue, formula; removed: lm and annual plot.
 1. 2017-09-18: Redesigned figure 3 using `plot.new = TRUE`, added `sarima` analysis.
+1. 2017-12-03: Continued to refine text, added `prophet` models. Commit pushed from 31,000 over Pennsylvania.
