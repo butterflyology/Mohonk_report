@@ -559,7 +559,6 @@ month_tbats %>%
   labs(title = "")
 #  autolayer(fitted(month_tbats))
 
- 
 ```
 
 Forecast is the mean of a series of simulated futures based on the model that best fits our data. 
