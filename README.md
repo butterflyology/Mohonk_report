@@ -34,3 +34,4 @@ List of major commits:
 1. 2017-06-22: Added `gamm()` models; fixed: caption issue, formula; removed: lm and annual plot.
 1. 2017-09-18: Redesigned figure 3 using `plot.new = TRUE`, added `sarima` analysis.
 1. 2017-12-03: Continued to refine text, added `prophet` models. Commit pushed from 31,000 over Pennsylvania.
+1. 2017-12-16: Added bibtex entries, added text to report.
