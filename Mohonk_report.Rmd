@@ -55,9 +55,11 @@ Most of these are, however, not directly comparable because they do not use cons
 
 ## Global climate change
 
-  Global climate change is one of the most serious threats to biodiversity of natural and human ecosystems, affecting both the distribution of species and the timing of biological events (@Amano:2010p7798). Since the 1980’s mean annual temperature in the Northeastern United States has risen approximately 2$^{\circ}$F. Some of this increase has occurred during the late winter and early spring seasons, resulting in a seasonal warm up 5-10 days earlier than was the case in 1980 (Andresen and Winkler 2009). Herbivorous insects, such as butterflies, must be synchronized with their host plants such that food resources are available to the insects at critical stages of development. If this symbiosis is disturbed, as has been predicted with global change, there may be limited resources available for developing larvae (Parmesan 2007).
+  Global climate change is one of the most serious threats to biodiversity of natural and human ecosystems, affecting both the distribution of species and the timing of biological events (@Amano:2010p7798). Since the 1980’s mean annual temperature in the Northeastern United States has risen approximately 2$^{\circ}$F. Some of this increase has occurred during the late winter and early spring seasons, resulting in a seasonal warm up 5-10 days earlier than was the case in 1980 (@Andresen:2009). Herbivorous insects, such as butterflies, must be synchronized with their host plants such that food resources are available to the insects at critical stages of development. If this symbiosis is disturbed, as has been predicted with global change, there may be limited resources available for developing larvae (Parmesan 2007).
 
-  Using an approach similar to that of @Cook:2008bw, I will use the wealth of natural history observations available at the Mohonk Preserve, such as first occurrence records, to correlate emergence with existing weather data from the Mohonk Preserve. In addition to the data collected by Mohonk Preserve personnel, the American Museum of Natural History has numerous specimens in their collection, many dating back over 100 years, that have been collected in the surrounding region. The relationship between insect emergence and accumulated degree days (a measure of total heating) is well established and remains constant for particular species (@Pedigo:2002). Significant warming has occurred in the Northeastern United States since 2002 (@IPCC:2013), which was the most recent date that @Cook:2008bw incorporated into their study. If warming has occurred at the Mohonk Preserve the calendar date of an event should occur earlier in the year and is detectable using common statistical models, such as time series analysis and eigenvalue decomposition (@Barnett:1999wc). I will then use projections of future climate change to examine how the butterfly community may respond to the predicted changes (@Winkler:2011a). 
+  Following an approach similar to that of @Cook:2008bw, I planned use the wealth of natural history observations available at the Mohonk Preserve, such as first occurrence records, to correlate emergence with existing weather data from the Mohonk Preserve. In addition to the data collected by Mohonk Preserve personnel, the American Museum of Natural History has numerous specimens from the area in their collection, many dating back over 100 years. The relationship between insect emergence and accumulated degree days (a measure of total heating) is well established and remains constant for particular species (@Pedigo:2002). Significant warming has occurred in the Northeastern United States since 2002 (@IPCC:2013). If warming has occurred at the Mohonk Preserve the calendar date of an event should occur earlier in the year and is detectable (@Barnett:1999wc). I then planned to use projections of future climate change to examine how the butterfly community may respond to the predicted changes (@Winkler:2011a). 
+
+  Data on the first observation of butterfly species were not provided. As such, I was unable to perform the phenology analysis. I chose to address and related and important question: *is climate change occurring at the Mohonk Preserve?* To address this question, I used the Mohonk Preserve temperature data set and applied statistical forecasting models.
 
 
 ```{r preliminaries, include = FALSE}
@@ -147,7 +149,7 @@ Below are the cumulative counts of butterflies recorded over three trapping peri
 **Table 1**: Species encountered in traps and the sum of all counts.
 
 
-```{r table_1, echo = FALSE, include = FALSE}
+```{r table_1, echo = FALSE, include = FALSE, eval = FALSE}
 table_1 <- data.frame(Species = c("Megisto cymela", "Papilio polyxenes", "Cercyonis pegala"), Count = colSums(BData[, 3:5]))
 rownames(table_1) <- NULL
 
@@ -285,9 +287,15 @@ Butterfly sampling using baited traps at the Mohonk Preserve did not produce spe
 
 
 ## Introduction
-Report previous results (@Cook:2008bw) observed no correlation between temperature and phenology. However, @Cook:2008bw estimated linear effects of temperature change and the trends reported in the literature is not a linear one. This non-linear trend was evident from their data (Fig. 4 @Cook:2008bw). An approach that allows researchers to consider other models was required.
 
-When evaluating data, an important (and often overlooked) step is to visualize the data set in an informative manner. The data set provided by the Mohonk Preserve contains 42,499 entries since 1900-01-01 (January $1^{st}$, 1900). Generating a coherant plot to convey temperature change over time using more than 42,000 data points would be problematic to say the leasts. To increase the interpretability of the data I will employ summarized data in the form of either mean monthly or annual temperatures. For example, it is informative to consider how temperature may have changed by month.
+  Climate change relates to an extended change in the distribution of temperatures that an area experiences (@IPCC:2013). Climate change has been observed throughout the United States and is particularly evident in the Nort
+  
+  @Knutson:2017
+
+
+
+When evaluating data, an important (and often overlooked) step is to visualize the data set in an informative manner. The data set provided by the Mohonk Preserve contains 42,499 entries since 1900-01-01 (January $1^{st}$, 1900). Generating a coherant plot that contains over 42,000 data points would be problematic to say the least. To increase the interpretability of the data I will utilize some form of summarized data, either mean monthly or annual temperatures. For example, it may be informative to consider how temperature may have changed by month.
+
 
 
 ```{r load_temperature, warning = TRUE, include = FALSE}
@@ -320,9 +328,9 @@ str(monthly_ts)
 
 ## Temperature by month
 
-A straight forward way to visual temperature trends is plot data by some shared trait. For example, plotting the montly average temperature for the month of December across all years. Plotting data in this manner removes seasonal variation and allows one to explore linear trends.
+A straight forward way to visual temperature trends is to plot data by some shared trait. For example, plotting the montly average temperature for the month of December across all years. Plotting data in this manner removes seasonal variation and allows one to explore linear trends.
 
-```{r tile_plot, echo = FALSE, fig.cap = "Mean temperature by month and year."}
+```{r tile_plot, echo = FALSE, fig.cap = "**Figure 4**: Mean temperature by month and year."}
 ggplot(monthly_temps, aes(y = MEAN_MONTH_C, x = YEAR, col = as.factor(MONTH))) + 
   geom_point() + 
   facet_wrap( ~ MONTH, labeller = as_labeller(c("1" = "Jan", "2" = "Feb", "3" = "Mar", "4" = "March", "5" = "May", "6" = "June", "7"= "July", "8" = "Aug", "9" = "Sep", "10" = "Oct", "11" = "Nov", "12" = "Dec"))) +
@@ -382,7 +390,7 @@ new_data <- transform(sim_data, fitted = predict(gamm1$gam, newdata = sim_data),
 ```
 
 
-```{r ribbon_plot, echo = FALSE, warning = FALSE, message = FALSE, fig.cap = "Plot of mean annual temperature with `gamm` line."}
+```{r ribbon_plot, echo = FALSE, warning = FALSE, message = FALSE, fig.cap = "**Figure 5**: Plot of mean annual temperature with `gamm` line."}
 ggplot(year_temps, aes(x = YEAR, y = centered)) +
   geom_point() +
   theme_bw() +
@@ -427,7 +435,7 @@ sarima(year_temps$centered, 0, 1, 2)
 plot(y = year_temps$centered, x = year_temps$YEAR, type = "l", pch = 19, xlim = c(1900, 2020), las = 1, ylab = expression(paste("Centered temperature ") ~degree~C), xlab = "Year", lwd = 1.5)
 ```
 
-```{r sarima_plot, echo = FALSE, results = "hide", message = FALSE}
+```{r sarima_plot, echo = FALSE, results = "hide", message = FALSE, include = FALSE}
 # create a ts object
 yr_ts <- ts(data = year_temps$centered, start = 1900, end = 2015)
 
@@ -514,7 +522,7 @@ yr_ts %>%
   autoplot()
 ```
 
-```{r forecast_plot, echo = FALSE, message = FALSE, warning = FALSE}
+```{r forecast_plot, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "**Figure 6**: `ARIMA` model with 10 year forecast"}
 # forecast arima models
 yr_arima <- auto.arima(yr_ts, stepwise = FALSE)
 #summary(yr_arima)
@@ -526,7 +534,7 @@ yr_arima %>%
   theme_bw() +
   theme(legend.position = "none") +
   labs(title = "") +
-  ylab(expression(paste("Temperature ") ~degree~C)) +
+  ylab(expression("Centered temperature " *~degree*C)) +
   xlab("Year")
 ```
 
@@ -602,27 +610,38 @@ The forecast predicts that annual temperature will continue to be above the mean
 
 ## Prediction - `prophet`
 
-```{r prophet, echo = FALSE, warning = FALSE, message = FALSE, results = "hide"}
+```{r prophet_monthly, echo = FALSE, warning = FALSE, include = FALSE, message = FALSE, results = "hide"}
 
 monthly_temps_prophet <- monthly_temps %>% 
   unite(YM, YEAR, MONTH, sep = "-") %>% 
   rename(ds = YM, y = MEAN_MONTH_C) %>% 
   mutate(ds = as.yearmon(ds, format = "%Y-%m"))
-  
 
-prophet_predict <- prophet(monthly_temps_prophet)
-prophet_future <- make_future_dataframe(prophet_predict, periods = 1000)
+prophet_predict <- prophet(monthly_temps_prophet, mcmc.samples = 1000) # linear growth model
+prophet_future <- make_future_dataframe(prophet_predict, periods = 4380)
 prophet_forecast <- predict(prophet_predict, prophet_future)
-
 # tail(prophet_forecast)
+```
+
+```{r prophet_monthly2, eval = FALSE, include = FALSE}
 plot(prophet_predict, prophet_forecast) +
   theme_bw() +
   xlab("Year") +
   ylab(expression("Mean monthly temp" *~degree*C))
+```
 
 
-prophet_plot_components(prophet_predict, prophet_forecast) 
+```{r prophet_annual, fig.cap = "**Figure 7**: `prophet` model with 12 year forecast", echo = FALSE}
+# prophet_plot_components(prophet_predict, prophet_forecast, uncertainty = TRUE, plot_cap = TRUE)
 
+source("code/plot_forecast_componant.R")
+
+plot_forecast_component(fcst = prophet_forecast, name = "trend", uncertainty = TRUE) +
+  theme_bw() +
+  ylab(expression("Mean annual temp" *~degree*C)) +
+  xlab("Year") +
+  geom_hline(yintercept = mean(monthly_temps_prophet$y)) +
+  scale_x_datetime(breaks = seq(as.POSIXct("1900-01-01"), as.POSIXct("2025-01-01"), by = "25 years"), labels = c("1900", "1925", "1950", "1975", "2000", "2025"))
 ```
 
 # Summary
