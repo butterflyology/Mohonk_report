@@ -38,3 +38,4 @@ List of major commits:
 1. 2017-12-17: More editing.
 1. 2017-12-20: Made `prophet` analysis fully Bayesian and not MAP.
 1. 2017-12-21: Further text edits and `.bib` updates.
+1. 2018-01-01: Complete draft assembled and converted into both `.pdf` and `.html` versions.
