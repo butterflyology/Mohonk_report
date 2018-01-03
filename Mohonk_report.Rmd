@@ -34,6 +34,9 @@ This research addressed two questions:
 
   This project was analyzed using the `R` statistical computing language [@R:CoreTeam] and this document was created using `RMarkdown` [@Allare:2017] and `knitr` [@Xie:2017]. All data and the `R` code required to reproduce the analyses and this document are freely available on the internet and can be found at this projects [`GitHub` page](https://github.com/butterflyology/Mohonk_report). Please switch to the `gh-pages` branch to ensure that you acquire the correct code and data used to render this report.
 
+This research paper is citable and has been assigned a [![DOI](https://zenodo.org/badge/93018667.svg)](https://zenodo.org/badge/latestdoi/93018667)
+
+
 
 ***
 
