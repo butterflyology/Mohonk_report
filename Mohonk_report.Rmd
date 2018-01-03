@@ -28,9 +28,9 @@ This research addressed two questions:
 1. Are standardized butterfly traps an effective way to quantify the butterfly fauna of the Mohonk Preserve?
 1. Has climate change impacted emergence time of the butterfly fauna of the Mohonk Preserve?
 
-    1. During the late Spring and early Summer of 2016 I established transects for standardized butterfly traps at three locations on the Mohonk Preserve: **Spring Farm**, **White Oak**, and **Glory Hill**. These traps were baited with fermented bananas and monitored following a protocol established by Conservation International for fruit-feeding butterflies. This was the first application of this protocol in North America. Briefly, traps were baited and checked daily for three days and any butterflies present in the traps were identified, marked, and released. Other butterflies encountered in proximity to the traps were also identified and their abundances noted. Following each survey period, the traps were idle for two weeks and the trapping cycle resumed.  After three trapping periods (nine survey days over six weeks) a total of three butterfly species were captured in the traps with no recaptures. I observed an additional 12 species of butterfly in significant abundances at the sites that were never observed in the traps. The low butterfly diversity observed in the traps, and higher diversity outside the traps, strongly suggests that this method is not ideal to monitor butterfly biodiversity at the Mohonk Preserve.
+    1. During the late Spring and early Summer of 2016 I established transects for standardized butterfly traps at three locations on the Mohonk Preserve: **Spring Farm**, **White Oak**, and **Glory Hill**. These traps were baited with fermented bananas and monitored following a protocol established by Conservation International for fruit-feeding butterflies. This was the first application of this protocol in North America. Briefly, traps were baited and checked daily for three days and any butterflies present in the traps were identified, marked, and released. Other butterflies encountered in proximity to the traps were also identified and their abundances noted. Following each survey period, the traps were idle for two weeks and the trapping cycle resumed. After three trapping periods (nine survey days over six weeks) a total of three butterfly species were captured in the traps with no recaptures. I observed an additional 12 species of butterfly in significant abundances in close proximity to the traps, but these species were never pbserved inside the traps. The low butterfly diversity observed in the traps, and higher diversity outside the traps, strongly suggests that this method is not ideal to monitor butterfly biodiversity at the Mohonk Preserve.
 
-    1. The Mohonk Preserve has collected weather data continuously for over 100 years and observed the first occurrence of butterfly species for nearly as long. I was able to access the preserve's weather data for dates beginning in 1896. Using a variety of statistical methods I detected the signature of climate change at the Mohonk Preserve. Since the mid-1970's the average annual temperature has increased by 1$^{\circ}$C at the Mohonk Preserve. Using statistical forecasting, I predict that this upward trend is likely to continue with a ~$\frac{1}{2}^{\circ}$C increase over the next 10 years. I requested but was not given the corresponding butterfly observational data and could not investigate how this temperature increase has affected the butterfly fauna of the Mohonk Preserve.
+    1. The Mohonk Preserve has collected weather data continuously for over 100 years and observed the first occurrence of numerous butterfly species for nearly as long. I was given access to the preserve's weather data for dates beginning in 1896. Using a variety of statistical methods I detected the signature of climate change at the Mohonk Preserve. Since the mid-1970's the average annual temperature has increased by 1$^{\circ}$C at the Mohonk Preserve. Using statistical forecasting, I predict that this upward trend is likely to continue with a ~$\frac{1}{2}^{\circ}$C increase over the next 10 years. I requested but was not given the corresponding butterfly observational data and could not investigate how this temperature increase has affected the butterfly fauna of the Mohonk Preserve.
 
   This project was analyzed using the `R` statistical computing language [@R:CoreTeam] and this document was created using `RMarkdown` [@Allare:2017] and `knitr` [@Xie:2017]. All data and the `R` code required to reproduce the analyses and this document are freely available on the internet and can be found at this projects [`GitHub` page](https://github.com/butterflyology/Mohonk_report). Please switch to the `gh-pages` branch to ensure that you acquire the correct code and data used to render this report.
 
@@ -42,24 +42,24 @@ This research addressed two questions:
 
 ## Species Diversity
 
-Standardized trap sampling fruit-feeding nymphalid butterflies has been shown to be an effective means for understanding butterfly diversity in space and time, and for use in conservation efforts [@DeVries:Walla2001; @Hill:2004td; @Molleman:2006eo; @DeVries:2011p11993; @Freitas:2014tm]. Conservation International, a world leader in assessing biodiversity, has produced a standard protocol to estimate butterfly biodiversity that can be employed anywhere in the world [@DeVries:2016vi].
+Standardized trap sampling fruit-feeding nymphalid butterflies has been shown to be an effective means for understanding tropical butterfly diversity in space and time, and for use in conservation efforts [@DeVries:Walla2001; @Hill:2004td; @Molleman:2006eo; @DeVries:2011p11993; @Freitas:2014tm]. Conservation International, a world leader in assessing biodiversity, has produced a standard protocol to estimate butterfly biodiversity that can be employed anywhere in the world [@DeVries:2016vi]. This method has never been employed in North America and the Mohonk Preserve has the opportunity to be a leader in conservation research by experimenting with this protocol.
 
-The data generated by these trap studies will allow the estimation of population size as well as species richness turnover, which are important first steps in monitoring the health and viability of local species. Once determined, the Mohonk Preserve will be able to monitor these populations (perhaps incorporating citizen scientists) and detect changes in the preserve before they are visually evident [@Agosti:2000p674].
+The data generated by these trap studies will allow the estimation of population size as well as species richness and turnover, which are important first steps in monitoring the health and viability of local species. Once determined, the Mohonk Preserve will be able to monitor these populations (perhaps incorporating citizen scientists) and detect changes in the preserve before they are visually evident [@Agosti:2000p674].
 
 The Nymphalidae is the largest family of butterflies, and the fruit-feeding butterflies may comprise up to 50% of the nymphalid species richness in tropical forests [@DeVries:2011p11993].
 
-Fruit-feeding nymphalids at the Mohonk preserve include members of the genera *Nymphalis*, *Speyeria*, *Phyciodes*, *Vanessa*, and *Polygonia.* One of the most salient characteristics of this group is that they have been sampled in a standardized manner to avoid human collector biases, thus facilitating comparisons of species richness, composition and abundance within and among habitat types. For these reasons, I propose focusing standardized sampling methods exclusively on fruit-feeding nymphalids, rather than on the entire butterfly community. There are many trap studies now being conducted all over the world.
+Fruit-feeding nymphalids at the Mohonk preserve include members of the genera *Nymphalis*, *Speyeria*, *Phyciodes*, *Vanessa*, and *Polygonia.* One of the most salient characteristics of this research is that they will be sampled in a standardized manner to avoid human collector biases, thus facilitating comparisons of species richness, composition and abundance within and among habitat types. For these reasons, I proposed focusing standardized sampling methods exclusively on fruit-feeding nymphalids, rather than on the entire butterfly community. 
 
-Most of these are, however, not directly comparable because they do not use consistent trap designs and protocols [see examples and citations in @DeVries:1987vl, @DeVries:Walla2001, @Batra:2006, @Freitas:2014tm]. The sampling protocol provided here is based on more than 10 years of monthly sampling conducted in lowland forests at Garza Cocha, Sucumbios Province, Ecuador and the Tirimbina Biological Reserve Heredia Province, Costa Rica that have been demonstrated to be directly comparable [@DeVries:Walla2001, @DeVries:2011p11993].
+There are many trap studies now being conducted all over the world. Most of these are, however, not directly comparable because they do not use consistent trap designs and protocols [see examples and citations in @DeVries:1987vl, @DeVries:Walla2001, @Batra:2006, @Freitas:2014tm]. The sampling protocol provided here is based on more than 10 years of monthly sampling conducted in lowland forests at Garza Cocha, Sucumbios Province, Ecuador and the Tirimbina Biological Reserve Heredia Province, Costa Rica that have been demonstrated to be directly comparable [@DeVries:Walla2001, @DeVries:2011p11993].
 
 
 ## Global climate change
 
-  Global climate change is one of the most serious threats to biodiversity of natural and human ecosystems, affecting both the distribution of species and the timing of biological events [@Amano:2010p7798]. Since the 1980’s mean annual temperature in the Northeastern United States has risen approximately 2$^{\circ}$F. Some of this increase has occurred during the late winter and early spring seasons, resulting in a seasonal warm up 5-10 days earlier than was the case in 1980 [@Andresen:2009]. Herbivorous insects, such as butterflies, must be synchronized with their host plants such that food resources are available to the insects at critical stages of development. If this symbiosis is disturbed, as has been predicted with global change, there may be limited resources available for developing larvae @Parmesan:2007dj.
+Global climate change is one of the most serious threats to biodiversity of natural and human ecosystems, affecting both the distribution of species and the timing of biological events [@Amano:2010p7798]. Since the 1980’s mean annual temperature in the Northeastern United States has risen approximately 2$^{\circ}$F. Some of this increase has occurred during the late winter and early spring seasons, resulting in a seasonal warm up 5-10 days earlier than was the case in 1980 [@Andresen:2009]. Herbivorous insects, such as butterflies, must be synchronized with their host plants such that food resources are available to the insects at critical stages of development. If this symbiosis is disturbed, as has been predicted with global change, there may be limited resources available for developing larvae @Parmesan:2007dj.
 
-  Following an approach similar to that of @Cook:2008bw, I planned use the wealth of natural history observations available at the Mohonk Preserve, such as first occurrence records, to correlate emergence with existing weather data from the Mohonk Preserve. In addition to the data collected by Mohonk Preserve personnel, the American Museum of Natural History has numerous specimens from the area in their collection, many dating back over 100 years. The relationship between insect emergence and accumulated degree days (a measure of total heating) is well established and remains constant for particular species [@Pedigo:2002]. Significant warming has occurred in the Northeastern United States since 2002 [@IPCC:2013]. If warming has occurred at the Mohonk Preserve the calendar date of an event should occur earlier in the year and is detectable [@Barnett:1999wc]. I then planned to use projections of future climate change to examine how the butterfly community may respond to the predicted changes [@Winkler:2011a]. 
+Following an approach similar to that of @Cook:2008bw, I planned use the wealth of natural history observations available at the Mohonk Preserve, such as first occurrence records, to correlate emergence date with existing weather data. In addition to the data collected by Mohonk Preserve personnel, the American Museum of Natural History has numerous specimens from the area in their collection, many dating back over 100 years. The relationship between insect emergence and accumulated degree days (a measure of total heating) is well established and remains constant for particular species [@Pedigo:2002]. Significant warming has occurred in the Northeastern United States since 2002 [@IPCC:2013]. If warming has occurred at the Mohonk Preserve the calendar date of an emergence event should occur earlier in the year and be detectable [@Barnett:1999wc]. I then planned to use projections of future climate change to examine how the butterfly community may respond to the predicted changes [@Winkler:2011a]. 
 
-  Data on the first observation of butterfly species were not provided. As such, I was unable to perform the phenology analysis. I chose to address and related and important question: *is climate change occurring at the Mohonk Preserve?* To address this question, I used the Mohonk Preserve temperature data set and applied statistical forecasting models.
+Data on the first observation of butterfly species were not provided. As such, I was unable to perform the phenological analysis. Given this limitation, I chose to shift my $2^{nd}$ research goal and address a related and important question: *is climate change occurring at the Mohonk Preserve?* To address this question, I used the Mohonk Preserve temperature data set and applied a variety of robust statistical models and generate forecasts for future temperatures that the Mohonk Preserve may face.
 
 
 ```{r preliminaries, include = FALSE}
@@ -85,7 +85,7 @@ library("prophet")
 
 ## Locations
 
-Transects were established at **Spring Farm**, **White Oak**, and **Glory Hill**.
+Transects were established at the **Spring Farm**, **White Oak**, and **Glory Hill** sites (**Fig. 1.**).
 ```{r Map_prep, include = FALSE}
 Mohonk_lon_lat <- data.frame(lon = c(-74.1283, -74.14995, -74.13538), lat = c(41.79586, 41.75146, 41.75487))
 
@@ -107,15 +107,19 @@ print(Traps_plot)
 ```
 
 
-  Modified from @DeVries:2016vi: A completed trap is a cylinder 1 m tall and 37 cm in diameter with a closed top and open bottom (Fig. 2). Two metal ring frames are sewn into the top and bottom, and the netting must completely close the top of the cylinder. The cylinder was sewn such that the netting overlaps on the long axis by 2 cm leaving a 20 cm unsewn slit approximately 30 cm from the top to allow access to the trap interior. A 47-49 cm square trap base (3 mm of durable corrugated plastic) was suspended from the bottom ring of the cylinder such that is hung 6 cm below the opening of the cylinder. The diameter of the trap base extended 5-6 cm beyond the cylinder diameter. Holes were drilled on each side, and plastic cable ties were used to attach the base to the trap.
+## Trap design
 
-  A small plastic bait cup was secured to the center of the base with a loop of thin, stiff wire that passed through two holes drilled in the base. The wire was then pressed down into the mouth of the cup to keep the bait cup upright and centered on the base. The receptacle for the bait had a volume of at least 200 ml (8 ounces), and was just be tall enough to pass between the base and lower trap ring. A length of nylon cord was secured to the bottom of the trap base to assist securing traps. 
+Modified from @DeVries:2016vi: A completed trap is a cylinder 1 m tall and 37 cm in diameter with a closed top and open bottom (**Fig. 2**). Two metal ring frames are sewn into the top and bottom, and the netting must completely close the top of the cylinder. The cylinder was sewn such that the netting overlaps on the long axis by 2 cm leaving a 20 cm unsewn slit approximately 30 cm from the top to allow access to the trap interior. A 47-49 cm square trap base (3 mm of durable corrugated plastic) was suspended from the bottom ring of the cylinder such that is hung 6 cm below the opening of the cylinder. The diameter of the trap base extended 5-6 cm beyond the cylinder diameter. Holes were drilled on each side, and plastic cable ties were used to attach the base to the trap.
 
-  Bait: Traps were baited with locally obtained bananas that were first chopped into 2-3 cm pieces and pureed with an auger in a large container (that had a lid). Approximately 15 pounds of bananas were used over the course of this project. The pureed bananas were allowed to ferment in the sealed container for 48 hours prior to use. The day before trapping approximately 150-200 ml of banana mash was added to the bait receptacle in each trap such that the bait level is below the top of the receptacle. Sampling began on the next day. Following each sampling period the banana puree was removed from the trap. 
+A small plastic bait cup was secured to the center of the base with a loop of thin, stiff wire that passed through two holes drilled in the base. The wire was then pressed down into the mouth of the cup to keep the bait cup upright and centered on the base. The receptacle for the bait had a volume of at least 200 ml (8 ounces), and was just be tall enough to pass between the base and lower trap ring. A length of nylon cord was secured to the bottom of the trap base to assist securing traps. 
 
 ```{r trap_construction, echo = FALSE, fig.cap = "**Figure 2**: Trap construction diagram"}
 knitr::include_graphics("images/Trap_design.png")
 ```
+
+
+## Bait
+Traps were baited with locally obtained bananas that were first chopped into 2-3 cm pieces and pureed with an auger in a large container (that had a lid). Approximately 15 pounds of bananas were used over the course of this project. The pureed bananas were allowed to ferment in the sealed container for 48 hours prior to use. The day before trapping approximately 150-200 ml of banana mash was added to the bait receptacle in each trap such that the bait level is below the top of the receptacle. Sampling began on the next day. Following each sampling period the banana puree was removed from the trap. 
 
 
 ## Diversity
@@ -139,14 +143,15 @@ colSums(BData[, 3:5])
 ```
 
 
-Below are the cumulative counts of butterflies recorded over three trapping periods. During this period, the individual traps were accessable to butterflies a total of 3240 hours (9 days, 3 site, 5 traps / site, 24 hours / day).
+Below are the cumulative counts of butterflies recorded over three trapping periods. During these periods, the individual traps were accessible to butterflies a total of 3240 hours (9 days, 3 site, 5 traps / site, 24 hours / day).
+
+**Table 1**: Species encountered in traps and the sum of all counts.
 
 | Species | Count | 
 |:---|:--:|
 | *Cercyonis pegala* | 6 |
 | *Megisto cymela* | 14 |
 | *Papilio polyxenes* | 6|
-**Table 1**: Species encountered in traps and the sum of all counts.
 
 
 ```{r table_1, echo = FALSE, include = FALSE, eval = FALSE}
@@ -157,6 +162,7 @@ knitr::kable(table_1, align = c("c", "c"))
 # Can make the table with kable, but need to improve formatting
 ```
 
+**Table 2**: Species observed in close proximity to traps.
 
 | Species | Observed |
 |:---|:--:|
@@ -187,9 +193,9 @@ knitr::kable(table_1, align = c("c", "c"))
 | *Satyrodes eurydice* | 4 |
 | *Speyeria cybele* | 2 |
 | *Vanessa virginiensis* | 3 |
-**Table 2**: Species observed in close proximity to traps.
 
-All of the butterfliy species observed in proximity to the traps were cross-checked to records available on the *e-butterfly* website or in the collection of the American Museum of Natural History. All of the butterflies I report above have been observed in county.
+
+All of the butterfly species observed in proximity (**Table 2**) to the traps were cross-checked with records available on the *e-butterfly* website or in the collection of the American Museum of Natural History. Many of the species in **Table 2** are fruit feeding nymphalid butterflies, and all of the butterflies I report above have been observed in Ulster County.
 
 
 ### Estimated diversity
@@ -242,7 +248,7 @@ plotDeMoney <- function(x0, y0, x1, y1, mean, dot){
 ```
 
 
-Using the data generated from the trap survey we can calculate "numbers equivalents" for a variety of indices. A numbers equivalent is the effective number of species for a given index at a particular order of diversity measure (*q*). *q* is a weight that is applied to rare things; when *q* > 1 the analysis is more sensitive to common species (rare things have little impact on the estimate. ) When *q* < 1 the analysis is more sensitive to rare species. When estimating values of $\gamma$ at *q* = 0 the result is the species richness. 
+Using the data generated from the trap survey (**Table 1**) we can calculate "numbers equivalents" for a variety of indices. A numbers equivalent is the effective number of species for a given index at a particular order of diversity measure (*q*). *q* is a weight that is applied to rare things; when *q* > 1 the analysis is more sensitive to common species (rare things have little impact on the estimate. ) When *q* < 1 the analysis is more sensitive to rare species. When estimating values of $\gamma$ at *q* = 0 the result is the species richness. 
 
 
 ```{r trap_plot, echo = FALSE, include = TRUE, fig.cap = "**Figure 3**: Species richness estimates based on traping.", warning = FALSE}
@@ -278,7 +284,7 @@ mtext(expression(paste(italic("q"))), 1, padj = 2, cex = 1.5)
 #par(mfrow = c(1, 1))
 ```
 
-Butterfly sampling using baited traps at the Mohonk Preserve did not produce species richness estimates that were indicative of the actual species present in the habitats (Tables 1 & 2). This research did analytically derived the correct species richness values for within the traps, but these estimates (or 3 species for **Spring Farm** and **White Oak**, 2 species for **Glory Hill**) were far below the observed values found immediatley outside of the trap. This was the first application of this method in North America, and has at least demonstrated how not to estimate butterfly biodiversty in New York. Future attempts to assess the butterfly community at the Mohonk Preserve should utilize alternative methods.
+Butterfly sampling using baited traps at the Mohonk Preserve did not produce species richness estimates that were indicative of the actual species present in the habitats (**Tables 1** & **2**). This research did analytically derive the correct species richness values within the traps, but these estimates (3 species for **Spring Farm** and **White Oak**, 2 species for **Glory Hill**) were far below the observed values found immediately outside of the trap (**Table 2**). This was the first application of this method in North America, and has at least demonstrated that this method is not an ideal method for sampling butterfly biodiversity in New York. Future attempts to assess the butterfly community at the Mohonk Preserve should utilize alternative methods.
 
 
 ***
@@ -288,7 +294,7 @@ Butterfly sampling using baited traps at the Mohonk Preserve did not produce spe
 
 ## Introduction
 
-  Climate change relates to an extended change in the distribution of temperatures that an area experiences [@IPCC:2013]. Climate change has been detected throughout the United States using temperature data, such as those collected by the Mohonk Preserve [@Knutson:2017]. When evaluating data, an important (and often overlooked) first step is to visualize the data set in an informative manner. The data set provided by the Mohonk Preserve contains 42,499 entries since 1900-01-01 (January $1^{st}$, 1900). Generating a coherant plot that contains over 42,000 data points would be problematic to say the least. Another issue when dealing with data that were collected daily is seasonal variation. What is needed is some way to reduce the complexity of the data without losing too much explanatory power [@Cahill:2015fg]. To reduce the complexity (while increasing interpretability) of the data I will utilize some form of reduced data, either mean monthly or annual temperatures.
+Climate change relates to an extended change in the distribution of temperatures that an area experiences [@IPCC:2013]. Climate change has been detected throughout the United States using temperature data, such as those collected by the Mohonk Preserve [@Knutson:2017]. When evaluating data, an important (and often overlooked) first step is to visualize the data in an informative manner. The data set provided by the Mohonk Preserve contains 42,499 entries since 1900-01-01 (January $1^{st}$, 1900). Generating a coherent plot that contains over 42,000 data points would be problematic to say the least. Another issue when dealing with data that were collected daily is seasonal variation. What is needed is some way to reduce the complexity of the data without losing too much explanatory power [@Cahill:2015fg]. To reduce the complexity (while increasing interpretability) of the data I will utilize some form of reduced data, either mean monthly or annual temperatures.
 
 
 ```{r load_temperature, warning = TRUE, include = FALSE}
@@ -321,7 +327,7 @@ str(monthly_ts)
 
 ### Temperature by month
 
-One straight forward method of visualing temperature trends is to plot data by some shared trait. For example, plotting the montly average temperature by each month across years. Plotting data in this manner removes seasonal variation and allows one to explore linear trends.
+One straight forward method of visualizing temperature trends is to plot data by some shared trait. For example, plotting the monthly average temperature by each month across years. Plotting data in this manner removes seasonal variation and allows one to explore linear trends.
 
 
 ```{r tile_plot, echo = FALSE, fig.cap = "**Figure 4**: Mean temperature by month and year."}
@@ -335,16 +341,15 @@ ggplot(monthly_temps, aes(y = MEAN_MONTH_C, x = YEAR, col = as.factor(MONTH))) +
 ```
 
 
-By removing the seasonality found in the Mohonk Preserve temperature data we can apply simple linear models to the each month. It appears that most months, especially March - August, have experienced visible warming trends, wheras Janurary appears to have experienced no change in mean temperature. While this figure provides a useful graphic that is easy to interpret, we can fit more complex models to the data set. These models allow us to forcast future temperatures at the Mohonk Preserve. I will ask two primary questions of the data: 
+By removing the seasonality found in the Mohonk Preserve temperature data we can apply simple linear models to the each month. It appears that most months, especially March - August, have experienced visible warming trends, whereas January appears to have experienced no change in mean temperature (**Fig. 4**). While this figure provides a useful graphic that is easy to interpret, we can fit more complex models to the data set. These models allow us to forecast future temperatures at the Mohonk Preserve. I will ask two primary questions of the data: 
 
 1) Is climate change detectable using the Mohonk Preserve temperature data? I will address this question using a very flexible generalized additive mixed model (`gamm`).
-1) Do forecasting models predict future warming for the Mohonk Preserve? I will employ two different modeling approaches to address this question: 1) The **A**uto**R**egressive **I**ntegrated **M**oving **A**verage model (`ARIMA`), and 2) a Bayesian variant of the `gamm` that each make different assumtions about the underlying nature of the data. 
+1) Do forecasting models predict warming for the Mohonk Preserve? I will employ two different modeling approaches to address this question: 1) The **A**uto**R**egressive **I**ntegrated **M**oving **A**verage model (`ARIMA`), and 2) a Bayesian variant similar to the `gamm` model. Each model makes different assumptions about the underlying nature of the data. 
 
 
 ## Generalized additive mixed model
 
-In statistics, we seek a model that explains the underlying data. Given the complex and fluctuating nature of temperature data it makes little sense to apply a linear model wherein one line is meant to capture the complexity of seasonal variation. I followed the method of @Morice:JGRD17833 and applied a generalized additive mixed model (`gamm`), which fits a series of local regressions to the data (thin-plate regression spline) and allows incorporation of the correlated residuals. This analysis was implemented using functions from the `mgcv` package [@bath22707, @bath32382, @bath7011].
-
+In statistics, we seek a model that explains the underlying data. Given the complex and fluctuating nature of temperature data it makes little sense to apply a linear model where one line is meant to capture the complexity of seasonal variation across many years. I followed the method of @Morice:JGRD17833 and applied a generalized additive mixed model (`gamm`), which fits a series of local regressions to the data (thin-plate regression spline) and allows incorporation of the correlated residuals. This analysis was implemented using functions from the `mgcv` package [@bath22707, @bath32382, @bath7011].
 
 ```{r gamm, echo = FALSE, warning = FALSE, include = FALSE}
 year_temps <- weather_data %>%
@@ -387,14 +392,14 @@ ggplot(year_temps, aes(x = YEAR, y = centered)) +
   geom_line(data = new_data, aes(y = fitted, x = YEAR))
 ```
 
-The `gamm` was run using "centered" temperature data to ease interpretability, this standardization has no effect on the analysis. When data are centered, the aritmatic mean is subtracted from each value, resulting in an average temperature of 0$^{\circ}$C.
+The `gamm` was run using "centered" temperature data to ease interpretability; this standardization has no effect on the analysis. When data are centered, the arithmetic mean is subtracted from each value, resulting in an average temperature of 0$^{\circ}$C.
 
-This model indicates that the the average annual temperature of the Mohonk Preserve has increased ~1.2$^{\circ}$C since 1975. This result is consistent with many other studies from the northeastern United States that demonstrated an annual increase in temperature beginning in the early 1980's [@Andresen:2009, @Knutson:2017].
+This model indicates that the the average annual temperature of the Mohonk Preserve has increased ~1.2$^{\circ}$C since 1975 (**Fig. 5**). This result is consistent with many other studies from the northeastern United States that demonstrated an annual increase in temperature beginning in the early 1980's [@Andresen:2009, @Knutson:2017].
 
 
 ## Prediction - ARIMA
 
-Having established that the mean annual temperature has increased at the Mohonk Preserve, I applied an `ARIMA` model to forecast future temperature change that may occur. A forecast is the mean of a series of simulated futures based on the model that best fits our data. `ARIMA` models are especially good at predicting future values in time-series data [@Hyndman:2013]. I used functions from the `forecast` to consider seasonal trends and data auto-correlation in the model and then predict temperature trends 10 years into the future [@Hyndman:2008, @Hyndman:2017].
+Having established that the mean annual temperature has increased at the Mohonk Preserve, I applied an `ARIMA` model to forecast future temperature change that may occur. A forecast is the mean of a series of simulated futures based on the model that best fits our data. `ARIMA` models are especially good at predicting future values in time-series data [@Hyndman:2013]. I used functions from the `forecast` to consider seasonal trends and data auto-correlation in the model, and then predicted temperature trends 10 years into the future [@Hyndman:2008, @Hyndman:2017].
 
 ```{r sarima, echo = FALSE, eval = FALSE, message = FALSE}
 # diff is used to identify the model type (MA, AR)
@@ -586,13 +591,13 @@ month_tbats %>%
 
 ```
 
-The `ARIMA` model (red line) exhibits the same general shape as the `gamm` model (Fig. 5). The forecast model make two predictions: 1) that the mean temperature for the next next years is likely to be above the mean temperature experienced for the past 115 years, and 2) the mean temperature is likely to continue follow the recent trend and rise.
+
+The `ARIMA` model (red line) exhibits the same general shape (**Fig. 6**) as the `gamm` model (**Fig. 5**) above. The forecast model make two predictions: 1) that the mean temperature for the next next years is likely to be above the mean temperature experienced for the past 115 years, and 2) the mean temperature is likely to continue follow the recent trend and rise.
 
 
 ## Prediction - `prophet`
 
-
-Lastly I applied a bayesian model that is similar to the `gamm` employed earlier, but can incorporate additional data points with ease. Known as a `prophet` model, this method not only can describe a non-linear trend over time but also generate forecasts. This model used monthly temperature data rather than the annual data the `ARIMA` and `gamm` models used. This analysis was implemented using the `prophet` package [@Taylor:2017hz].
+Lastly I applied a Bayesian model that is similar to the `gamm` employed earlier, but can incorporate additional data points with ease. Known as a `prophet` model, this method can describe non-linear trends over time but also generate forecasts. This model used monthly temperature data rather than the annual data the `ARIMA` and `gamm`s  used. This analysis was implemented using the `prophet` package [@Taylor:2017hz].
 
 
 ```{r prophet_monthly, echo = FALSE, warning = FALSE, include = FALSE, message = FALSE, results = "hide"}
@@ -629,7 +634,7 @@ plot_forecast_component(fcst = prophet_forecast, name = "trend", uncertainty = T
   scale_x_datetime(breaks = seq(as.POSIXct("1900-01-01"), as.POSIXct("2025-01-01"), by = "25 years"), labels = c("1900", "1925", "1950", "1975", "2000", "2025"))
 ```
 
-The `prophet` analysis exhibits the same trend observed by the `gamm` and `ARIMA` models, with an increase in mean annual temperature evident since the late 1970's. The `prophet` model also predicts continued increase in mean annual temperature of approximately $\frac{1}{2}^{\circ}$C.
+The `prophet` analysis exhibits the same trend (**Fig. 7**)observed by the `gamm` and `ARIMA` models, with an increase in mean annual temperature evident since the late 1970's. The `prophet` model also predicts continued increase in mean annual temperature of approximately $\frac{1}{2}^{\circ}$C.
 
 
 # Conclusions
