@@ -259,6 +259,7 @@ Using the data generated from the trap survey (**Table 1**) we can calculate "nu
 par(mar = c(1, 5, 0, 0))
 par(fig = c(0, 1, 0.65, 1), new = TRUE)
 
+
 par(mar = c(3, 6, 1, 1))
 plot.new()
 plot(x = seq(from = 0, to = 5, length.out = 4), y = seq(from = 0, to = 5.2, length.out = 4), xaxt = "n", type = "n", ylab = "", las = 1, xlab = "", main = "Spring Farm")
@@ -305,9 +306,9 @@ weather_data <- read_csv("data/Mohonk_temp.csv", col_names = TRUE, col_types = l
 
 weather <- weather_data %>% 
 	select(DATE, MAX, MIN) %>% 
-	mutate(Max_Celsius = ((MAX - 32) * (5/9)), 
+	mutate(Max_Celsius = ((MAX - 32) * (5 / 9)), 
 		Min_Celsius = ((MIN - 32) * (5 / 9)),
-		mean_C = ((Max_Celsius + Min_Celsius)/2))
+		mean_C = ((Max_Celsius + Min_Celsius) / 2))
 ```
 
 
@@ -315,7 +316,7 @@ weather <- weather_data %>%
 monthly_temps <- weather_data %>%
   separate(DATE, into = c("YEAR", "MONTH", "DAY"), convert = TRUE) %>%
   group_by(YEAR, MONTH) %>% 
-  mutate(Max_Celsius = ((MAX - 32) * (5/9)), 
+  mutate(Max_Celsius = ((MAX - 32) * (5 / 9)), 
          Min_Celsius = ((MIN - 32) * (5 / 9)), 
          mean_C = ((Max_Celsius + Min_Celsius) / 2)) %>%
   filter(YEAR <= 2015) %>%
@@ -358,7 +359,7 @@ In statistics, we seek a model that explains the underlying data. Given the comp
 year_temps <- weather_data %>%
   separate(DATE, into = c("YEAR", "MONTH", "DAY"), convert = TRUE) %>%
   group_by(YEAR) %>% 
-  mutate(Max_Celsius = ((MAX - 32) * (5/9)), 
+  mutate(Max_Celsius = ((MAX - 32) * (5 / 9)), 
          Min_Celsius = ((MIN - 32) * (5 / 9)), 
          mean_C = ((Max_Celsius + Min_Celsius) / 2)) %>%
   filter(YEAR <= 2015) %>%
